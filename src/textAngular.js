@@ -637,9 +637,6 @@ angular.module('textAngular.DOM', ['textAngular.factories'])
 					}
 					taSelection.setSelectionToElementEnd($target[0]);
 					return;
-				}else if(command.toLowerCase() === 'inserthtml'){
-					taSelection.insertHtml(options, topNode);
-					return;
 				}
 			}
 			try{
@@ -1517,7 +1514,6 @@ angular.module('textAngular.taBind', ['textAngular.factories', 'textAngular.DOM'
 									$selection.remove();
 									taSelection.setSelectionToElementStart(_new[0]);
 									event.preventDefault();
-
 								}
 							}
 						}
