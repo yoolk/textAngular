@@ -637,13 +637,6 @@ angular.module('textAngular.DOM', ['textAngular.factories'])
 					}
 					taSelection.setSelectionToElementEnd($target[0]);
 					return;
-				}else if(command.toLowerCase() === 'createlink'){
-					var _selection = taSelection.getSelection();
-					if(_selection.collapsed){
-						// insert text at selection, then select then just let normal exec-command run
-						taSelection.insertHtml('<a href="' + options + '">' + options + '</a>', topNode);
-						return;
-					}
 				}else if(command.toLowerCase() === 'inserthtml'){
 					taSelection.insertHtml(options, topNode);
 					return;
