@@ -4,13 +4,13 @@
     define('textAngular', ["rangy","rangy/lib/rangy-selectionsaverestore"], function (a0,b1) {
       return (root['textAngular.name'] = factory(a0,b1));
     });
-  } else if (typeof exports === 'object') {
+  } else if (typeof module === 'object' && module.exports) {
     // Node. Does not work with strict CommonJS, but
     // only CommonJS-like environments that support module.exports,
     // like Node.
     module.exports = factory(require("rangy"),require("rangy/lib/rangy-selectionsaverestore"));
   } else {
-    root['textAngular'] = factory(rangy);
+    root['textAngular'] = factory(root["rangy"]);
   }
 }(this, function (rangy) {
 
@@ -2076,27 +2076,6 @@ angular.module('textAngular.DOM', ['textAngular.factories'])
                 // refocus on the shown display element, this fixes a bug when using firefox
                 $target[0].focus();
                 return;
-            }else if(command.toLowerCase() === 'createlink'){
-                /* istanbul ignore next: firefox specific fix */
-                if (tagName === 'a') {
-                    // already a link!!! we are just replacing it...
-                    taSelection.getSelectionElement().href = options;
-                    return;
-                }
-                var tagBegin = '<a href="' + options + '" target="' +
-                        (defaultTagAttributes.a.target ? defaultTagAttributes.a.target : '') +
-                        '">',
-                    tagEnd = '</a>',
-                    _selection = taSelection.getSelection();
-                if(_selection.collapsed){
-                    //console.log('collapsed');
-                    // insert text at selection, then select then just let normal exec-command run
-                    taSelection.insertHtml(tagBegin + options + tagEnd, topNode);
-                }else if(rangy.getSelection().getRangeAt(0).canSurroundContents()){
-                    var node = angular.element(tagBegin + tagEnd)[0];
-                    rangy.getSelection().getRangeAt(0).surroundContents(node);
-                }
-                return;
             }else if(command.toLowerCase() === 'inserthtml'){
                 //console.log('inserthtml');
                 taSelection.insertHtml(options, topNode);
@@ -3455,9 +3434,7 @@ angular.module('textAngular.taBind', ['textAngular.factories', 'textAngular.DOM'
                                 _types += " " + clipboardData.types[_t];
                             }
                             /* istanbul ignore next: browser tests */
-                            if (/text\/html/i.test(_types)) {
-                                pastedContent = clipboardData.getData('text/html');
-                            } else if (/text\/plain/i.test(_types)) {
+                            if (/text\/plain/i.test(_types)) {
                                 pastedContent = clipboardData.getData('text/plain');
                             }
                             processpaste(pastedContent);
